@@ -14,42 +14,68 @@ library("leaflet")
 library("tigris")
 ```
 
+<br>
+
 ## Introduction
 
-The U.S. penal system is one that has unfairly targeted people of color, particularly Black people, since it's very inception. The sheer scale of this system can be difficult to comprehend, and the intentionally scarce data sources make it that much more difficult to pry apart. Thanks to the tireless work of organizations like the Vera Institute, more of this data is being compiled and made available for independent exploration. 
-
-Within the data set provided by the Vera Institute, I chose to primarily focus my exploration on the uneven ways people of color are incarcerated across different levels of urbanicity - that is to say, how dense of an area they live in. While people of color are unfairly policed and sentenced across the country, the level of power granted to county police, judges, and jails in rural environments means a greater potential for abuse. My exploration also included a brief look at jail capacity vs. jailed population, as it is not only the fact of being incarcerated that is an issue, but additionally the conditions under which we force those people to live.
+The U.S. penal system is one that has unfairly targeted people of color, particularly Black people, since its very inception. The sheer scale of this system can be difficult to comprehend, and the intentionally scarce data sources make it that much more difficult to pry apart. Thanks to the tireless work of organizations like the Vera Institute, more of this data is being compiled and made available for independent exploration.  
 
 
+Within the [data set provided by the Vera Institute](https://github.com/vera-institute/incarceration-trends), I chose to primarily focus my exploration on the uneven ways people of color are incarcerated across different levels of urbanicity - that is to say, how dense of an area they live in. While people of color are unfairly policed and sentenced across the country, the level of power granted to county police, judges, and jails in rural environments means a greater potential for abuse. My exploration also included a brief look at jail capacity vs. jailed population, as it is not only the fact of being incarcerated that is an issue, but additionally the conditions under which we force people to live during their sentence.  
+
+<br>
 
 ## Summary
 
-My exploration of the data provided many interesting and often horrifying insights, but a few figures were of particular note. In 2016, the total number of incarcerated people in America was `r total_incarcerated_2016`, a staggering number. In the same year, per capita, `r black_incarcerated_2016`% of Black people aged 15-60 were incarcerated, as compared to `r white_incarcerated_2016`% of white people. In rural and small-mid sized counties, this figure jumps to `r rural_black_incarcerated_2016`% for Black people. `r over_capacity_jails_2016` jails were running at over 100% capacity - meaning the `r number_in_overcapacity_jail` incarcerated people who live there are living in conditions below what should be the most basic standard. 
-\n
+My exploration of the data provided many interesting and often horrifying insights, but a few figures were of particular note. These summary statistics are all for the year 2016, as this was the most recent year with complete data for the variables I was interested in. The total number of incarcerated people in America that year was `r total_incarcerated_2016`, a truly staggering number. In the same year, per capita, `r black_incarcerated_2016`% of Black people aged 15 - 64 were incarcerated, as compared to `r white_incarcerated_2016`% of white people. In rural and small-mid sized counties, this figure jumps to `r rural_black_incarcerated_2016`% for Black people. Finally, `r over_capacity_jails_2016` jails were running at over 100% capacity - meaning the `r number_in_overcapacity_jail` incarcerated people who live there are living in conditions below what should be the most basic standard.  
 
+<br>
 
 ## Trends Over Time
-The first chart I created looks at how many people are incarcerated per capita - that is to say, of the number of people who live in a county, what percentage of those people are incarcerated? To fully explore this idea, the data is separated by race and then averaged for the U.S. population for each year from xxxx-xxxx, as these years represent the most complete data.
+The first chart I created looks at how many people are incarcerated per capita - that is to say, of the number of people who live in a county, what percentage of those people are incarcerated? To fully explore this idea, the data is separated by race and then averaged for the U.S. population for each year from 1990 - 2016, as these years represent the most complete data. The incarcerated data was only compared against the county populated aged 15 - 64, as these are the ages of people who are likely to be jailed, a more insightful comparison than looking at the entire county population.
+
+The chart clearly shows the unjustly high rate Black people are incarcerated at - not only is it the highest by a wide margin, it's more than three times the rate that white people are incarcerated. 
+
+<br>
 
 ```{r, echo = FALSE}
 proportion_incarcerated
 ```
 
+<br>
 
+I also calculated the same data, but only including rural and small-mid sized counties. This shows a significant increase in incarceration, particularly for latinx and native people.  
 
-
-## Variable Comparison Chart
-The two variables I wanted to examine are jail capacity, and the population of those in jails. I think this is a useful chart because it demonstrates just how full jails really are. It also shows the steady climb of jail population over the years, with capacity just barely keeping pace to continue making room for more people. 
+<br>
 
 ```{r, echo = FALSE}
-bars
+rural_proportion_incarcerated
 ```
 
+<br>
 
+## Variable Comparison Chart
+The two variables I wanted to examine are jail capacity, and the population of those in jails. I think this is a useful chart because it demonstrates just how full jails really are. It also shows the steady climb of jail population over the years, with capacity just barely keeping pace to continue making room for more people. Like any other business, jails aim to keep occupancy at a maximum to turn the greatest profits.  
+
+
+This chart also shows that the overall amount of remaining capacity has been increasing, but without further data it's hard to know what this means. It could be that many jails were built beginning around 2008, or that rural jails are over-capacity and urban jails are more empty than they were previously (my data is aggregated, so this visualization alone cannot answer). More data would be needed to create any additional insights.
+
+<br>
+
+```{r, echo = FALSE}
+jail_capacity_vs_population
+```
+  
+<br> 
 
 ## Map
-Many of the variables in this data set show interesting trends when plotted geographically. I decided to specifically focus on the counties in the U.S. that jail the largest percentage of their Black populations. By looking at the information geographically, we can see clusters of areas that incarcerate Black people at extremely high rates, indicating the possibility of a subset of the justice system causing extreme harm. We can also see that the areas that have the most incarceration are primarily rural areas, with a few small-to-mid sized counties and only two suburban areas - not urban areas make the top 100.
+Many of the variables in this data set show interesting trends when plotted geographically. I decided to specifically focus on the counties in the U.S. that jail the largest percentage of their Black populations. By looking at the information geographically, we can see clusters of areas that incarcerate Black people at extremely high rates, indicating the possibility of a subset of the justice system causing extreme harm. We can also see that the areas that have the most incarceration are primarily rural areas, with a few small-to-mid sized counties and only five suburban areas - no urban areas make the top 100 when the parameters were expanded in my experimentation. 
 
+Percentage of population incarcerated per capita is visible by hovering over a county, and the county name can be viewed by clicking.
+
+<br>
+
+##### 60 Counties with the Highest % of Black residents Incarcerated
 ```{r, echo = FALSE}
 highest_incar_county_map
 ```
